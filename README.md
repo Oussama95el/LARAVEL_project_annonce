@@ -1,6 +1,6 @@
 # LARAVEL_project_annonce
 
-C fichier contier les definitions de base necessaire pour travailer avec LARAVEL, parmit ces definitions:
+Ce fichier contien les definitions de base necessaire pour travailer avec LARAVEL, parmit ces definitions:
 
 ### Artisan :
 
