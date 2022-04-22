@@ -8,10 +8,9 @@
             </span>
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-              <li><a href="#" class="nav-link px-2 text-white">Home</a></li>
-              <li><a href="#" class="nav-link px-2 text-white">Offers</a></li>
-              <li><a href="#" class="nav-link px-2 text-white">Requests</a></li>
-              <li><a href="#" class="nav-link px-2 text-white">About</a></li>
+              <li><router-link to="/" href="#" class="nav-link px-2 text-white">Home</router-link></li>
+              <li class="nav-link px-2 text-white" @click="offerRedirect">Offers</li>
+              <li class="nav-link px-2 text-white" @click="requestRedirect">Requests</li>
             </ul>
 
             <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
@@ -19,7 +18,7 @@
             </form>
 
             <div class="text-end">
-              <button type="button" class="btn btn-outline-light me-2">Login</button>
+              <router-link to="/login"> <button type="button" class="btn btn-outline-light me-2">Login</button> </router-link>
               <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">Sign-up</button>
             </div>
           </div>
@@ -30,12 +29,11 @@
       <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
-            <div class="modal-header bg-dark white">
-              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <div class="modal-header bg-dark white"><h5> Register Your Information</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body bg-dark white">
-              <form class="mb-3" method="post" @submit.prevent="submit">
+              <form class="mb-3" @submit.prevent="submit">
                 <div class="mb-3">
                   <label>Nom</label>
                   <input type="text" name="nom" class="form-control" placeholder="Entrez votre nom" v-model="nom" required>
@@ -52,12 +50,11 @@
                   <label>Password</label>
                   <input type="password" name="password" class="form-control" placeholder="" v-model="password" required>
                 </div>
-                <p>Etes-vous dèja enregistrer ? <router-link to="/login"><u> Clicker ici </u></router-link></p>
+                <div class="modal-footer bg-dark">
+                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                  <input type="submit" class="btn btn-warning" value="Submit">
+                </div>
               </form>
-            </div>
-            <div class="modal-footer bg-dark">
-              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-warning">Save changes</button>
             </div>
           </div>
         </div>
@@ -66,13 +63,62 @@
     </div>
 </template>
 <script>
+import axios from 'axios';
 export default {
     name:"Header",
-    
+    data(){
+      return{
+        nom: "",
+        prenom: "",
+        email: "",
+        password: "",
+
+      }
+    },
+    mounted() {
+      console.log(localStorage.getItem('token'))
+    },
+  methods:{
+      submit(){
+        const modal = document.getElementById(exampleModal);
+        const endpoint = 'http://127.0.0.1:8000/api/register';
+        axios.post(endpoint,{
+            nom:  this.nom,
+            prenom:this.prenom,
+            email:this.email,
+            password:this.password
+        }).then(res => {
+          const token = res.data.token
+          localStorage.setItem('token', token)
+          this.$router.push('/login')
+        }).catch(e =>  console.error(e))
+
+      },
+      offerRedirect(){
+        if(localStorage.getItem('token') == null){
+          this.$router.push('/login')
+        }else{
+          this.$router.push('/offers')
+        }
+      },
+      requestRedirect(){
+        if(localStorage.getItem('token') == null){
+          this.$router.push('/login')
+        }else{
+          this.$router.push('/requests')
+        }
+      },
+  }
 }
 </script>
-<style lang="scss" scoped>
 
+
+
+<!--Styling scoped-->
+<style lang="scss" scoped>
+    li{
+      cursor: pointer;
+    }
     #logo{
       margin-right: 50px;
       width: 50px;
@@ -82,7 +128,9 @@ export default {
     }
 
     @media (max-width:480px) {
-
+    #logo{
+      display: none !important;
+    }
     }
     @media (max-width:720px) {
 

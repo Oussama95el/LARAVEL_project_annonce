@@ -8,14 +8,14 @@
         </figure>
       </div>
       <div class="form-container">
-        <form class="mb-3">
+        <form class="mb-3" method="post" @submit.prevent="submit">
           <h1 class="fw-bolder text-white mb-3 text-center">Login</h1>
           <div class="form-floating mb-5">
-            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+            <input type="email" class="form-control" id="floatingInput" v-model="email" placeholder="name@example.com">
             <label for="floatingInput" style="color:#2d3748">Email address</label>
           </div>
           <div class="form-floating mb-5">
-            <input type="password" class="form-control" id="floatingPassword"  placeholder="Password">
+            <input type="password" class="form-control" id="floatingPassword" v-model="password"  placeholder="Password">
             <label for="floatingPassword" style="color:#2d3748">Password</label>
             <a href="#">Forgot password?</a>
           </div>
@@ -30,10 +30,43 @@
 </template>
 
 <script>
+import axios from "axios";
+import {generateFormData} from "../utils/helpers";
+
 export default {
-  name: "Login"
+  name: "Login",
+  data(){
+    return{
+      email: '',
+      password: '',
+
+    }
+  },
+  mounted() {
+  },
+  methods:{
+    submit(){
+
+      const endpoint = 'http://127.0.0.1:8000/api/login';
+      const data = {email: this.email, password: this.password}
+      axios.post(endpoint,data).then(res => {
+        if (res.data.token){
+          const token = res.data.token
+          const user_id = res.data.user.id
+          console.log(token)
+          console.log(user_id)
+          localStorage.setItem('token', token)
+          localStorage.setItem('user_id', user_id)
+          this.$router.push('/offers');
+        }else{
+          alert('Your email or password are incorrect !!!')
+        }
+      })
+    }
+  }
 }
 </script>
+
 
 <style lang="scss" scoped>
 @mixin center($justify,$align,$direction){

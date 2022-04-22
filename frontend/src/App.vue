@@ -2,6 +2,7 @@
 <script>
 import Footer from "./components/Footer.vue"
 import Header from "./components/Header.vue"
+import SecondHeader from "./components/SecondHeader.vue";
 
 export default {
     component: "app",
@@ -17,6 +18,7 @@ export default {
       }
     },
     components: {
+      SecondHeader,
       Footer,
       Header,
 
@@ -25,8 +27,8 @@ export default {
 
   },
 computed:{
-    isDashboardPage(){
-        return this.$router.currentRoute.value.fullPath.includes("/dashboard") || this.$router.currentRoute.value.fullPath.includes("/rendez-vous");
+    isSecondHeader(){
+        return this.$router.currentRoute.value.fullPath.includes("/offers") || this.$router.currentRoute.value.fullPath.includes("/requests");
     },
 
 
@@ -36,7 +38,7 @@ computed:{
 
 <template>
 <div id="app">
-    <HeaderDashboard v-if="isDashboardPage"/>
+    <SecondHeader v-if="isSecondHeader"/>
     <Header v-else />
     <router-view ></router-view>
     <Footer />
@@ -107,7 +109,9 @@ computed:{
           font-weight: normal;
         }
 
-        body {
+        #app {
+          background-color: rgba(245, 245, 245, 0.98) !important;
+          padding: 0px 10px 0px 10px;
           min-height: 100vh;
           color: var(--color-text);
           background: var(--color-background);
@@ -120,6 +124,24 @@ computed:{
           -webkit-font-smoothing: antialiased;
           -moz-osx-font-smoothing: grayscale;
         }
-        
+
+        @media (max-width: 480px) {
+          #app{
+            padding: 0px;
+          }
+          h1{
+            font-size: 18px;
+          }
+          button{
+            font-size: 12px !important;
+            padding: 8px ! important;
+          }
+          h5{
+            font-size: 14px;
+          }
+          p{
+            font-size: 10px;
+          }
+        }
 
 </style>
