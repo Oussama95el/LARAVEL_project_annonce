@@ -29,9 +29,7 @@
                   <div class="ratio">
                     <img src="../assets/profile.jpg" alt="profile picture" class="rounded-circle profile-img">
                   </div>
-                  <span class="m-1">
-                    <h5 class="card-title">{{item.nom}} {{item.prenom}}</h5>
-                  </span>
+                    <h5 class="card-title username">{{item.user_demand.nom}} {{item.user_demand.prenom}}</h5>
                 </div>
                 <div v-if="item.user_id == userId ? true : false">
                   <div class="img-fluid d-flex">
@@ -159,7 +157,7 @@ export default {
     axios.get(endpoint).then(res => {
       this.requests = res.data
       // this.requests = this.requests.filter(e => e.id != id)
-      console.log(this.requests[0].id)
+      console.log(res)
     })
 
 
@@ -228,7 +226,10 @@ export default {
   justify-content: $justify !important;
   align-items: $align !important;
 }
-
+.username{
+  font-size: 14px;
+  margin-left: 8px;
+}
 .center {
   @include center(center, center, row)
 }
@@ -242,10 +243,6 @@ export default {
   width: 100%;
   padding: 20px;
 }
-.card-title{
-  font-size: 14px;
-}
-
 .container-content {
   @include center(center, center, row);
   width: 100%;
@@ -261,20 +258,15 @@ export default {
 .ratio {
   display: block;
   position: relative;
+  width: 50%;
 }
 
 .ratio:before {
   content: '';
   display: block;
   width: 50px;
-  height: 30px;
   padding-top: 100%;
 }
-
-.profile-img {
-  flex-grow: 1;
-}
-
 .header {
   background-image: linear-gradient(to right bottom, rgba(164, 100, 196, 0.81), rgba(255, 255, 255, 0.2)), url("../assets/offerCover.jpg");
   background-size: cover;

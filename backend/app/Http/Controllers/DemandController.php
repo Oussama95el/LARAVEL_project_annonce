@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Demand;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 class DemandController extends Controller
 {
     /**
@@ -61,11 +61,11 @@ class DemandController extends Controller
     public function showAll()
     {
 //        return Demand::orderBy('id', 'desc')->take(6)->get();
-        $result = DB::table('demands')
-            ->join('users', 'demands.user_id', '=', 'users.id')
-            ->select('demands.*', 'users.nom','users.prenom')
-            ->orderBy('id', 'desc')->take(6)->get();
-        return $result;
+//        $result = DB::table('demands')
+//            ->join('users', 'demands.user_id', '=', 'users.id')
+//            ->select('demands.*', 'users.nom','users.prenom')
+//            ->orderBy('id', 'desc')->take(6)->get();
+        return Demand::with('userDemand')->orderBy('id', 'desc')->take(6)->get();
     }
 
     /**

@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Demand;
 use Illuminate\Http\Request;
 use App\Models\Offer;
+use Illuminate\Support\Facades\DB;
+
 class OfferController extends Controller
 {
     /**
@@ -45,7 +48,12 @@ class OfferController extends Controller
 
     public function showAll()
     {
-        return Offer::orderBy('id', 'desc')->take(6)->get();
+//        return Offer::orderBy('id', 'desc')->take(6)->get();
+//        $result = DB::table('offers')
+//            ->join('users', 'offers.user_id', '=', 'users.id')
+//            ->select('offers.*', 'users.nom','users.prenom')
+//            ->orderBy('id', 'desc')->take(6)->get();
+        return Offer::with('userOffer')->get();
     }
 
     /**

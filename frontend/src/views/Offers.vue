@@ -29,7 +29,7 @@
               <div class="ratio">
                 <img src="../assets/profile.jpg" alt="profile picture" class="rounded-circle profile-img">
               </div>
-              <h5 class="card-title">user</h5>
+              <h5 class="card-title username">{{item.user_offer.nom}}<br>{{item.user_offer.prenom}}</h5>
             </div>
             <div v-if="item.user_id == userId ? true : false">
             <div class="img-fluid d-flex">
@@ -163,6 +163,7 @@ export default {
       const endpoint = `http://127.0.0.1:8000/api/offer`
       axios.get(endpoint).then(res => {
         this.offers = res.data
+        console.log(res)
       })
     },
     startUpdate(item){
@@ -226,7 +227,10 @@ export default {
   justify-content: $justify !important;
   align-items: $align !important;
 }
-
+.username{
+  font-size: 14px;
+  margin-left: 8px;
+}
 .center {
   @include center(center, center, row)
 }

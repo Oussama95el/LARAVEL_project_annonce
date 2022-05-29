@@ -37,10 +37,10 @@ export default {
     background-image:linear-gradient(to right bottom, rgba(196, 196, 100, 0.81), rgba(255, 255, 255, 0.2)) ,url("../assets/CoverHome.jpg");
     background-size: cover;
     background-repeat:no-repeat ;
-    background-position: top center;
+    background-position: center;
     height: 85vh;
     width: 100%;
-    clip-path: polygon(0 0, 100% 0, 100% 75vh,0 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 80%,0 100%);
   }
   .cover-logo{
     width: 250px;
